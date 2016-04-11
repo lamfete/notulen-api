@@ -12,9 +12,10 @@ class CreateItemLinesTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_lines', function(Blueprint $table){
+        Schema::create('item_lines', function(Blueprint $table){
             $table->integer('item_head_id');
-            $table->text('item_name');
+            $table->string('item_name');
+            $table->timestamps();
         });
     }
 
@@ -25,6 +26,6 @@ class CreateItemLinesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('order_lines');
+        Schema::drop('item_lines');
     }
 }
