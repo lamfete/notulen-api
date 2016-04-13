@@ -12,14 +12,40 @@ use Carbon\Carbon;
 
 class ItemsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
     	//$items = Item_head::all();
-    	$items = Item_head::with(
-    			array('User' => function($query){
-    				$query->select('id', 'name');
-    			})
-    		)->select('id', 'user_id')->paginate(5);
+    	$search_term = $request->input('search');
+    	$limit = $request->input('limit')?$request->input('limit'):5;
+
+    	if($search_term)
+    	{
+    		$items = Item_head::orderBy('id', 'DESC')
+    			->where('user_id', '=', $search_term)
+    			->with(
+    				array('User' => function($query){
+    					$query->select('id', 'name');
+    				})
+    			)
+    			->select('id', 'user_id')->paginate($limit);
+
+    		$items->appends(array(
+    			'search' => $search_term,
+    			'limit' => $limit
+    		));
+    	}
+    	else
+    	{
+    		$items = Item_head::orderBy('id', 'DESC')->with(
+    				array('User' => function($query){
+    					$query->select('id', 'name');
+    				})
+    			)->select('id', 'user_id')->paginate($limit);
+
+    		$items->appends(array(
+    			'limit' => $limit
+    		));
+    	}
 
     	return Response::json([
     		$this->transformCollection($items)
