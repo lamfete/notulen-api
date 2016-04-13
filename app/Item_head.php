@@ -1,5 +1,4 @@
 <?php
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,5 +10,10 @@ class Item_head extends Model
     public function item_lines()
     {
     	return $this->hasMany('App\Item_line');
+    }
+
+    public function user()
+    {
+    	return $this->belongsTo('App\User');
     }
 }
