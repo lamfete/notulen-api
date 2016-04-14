@@ -12,6 +12,11 @@ use Carbon\Carbon;
 
 class ItemsController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('jwt.auth');
+	}
+
     public function index(Request $request)
     {
     	//$items = Item_head::all();

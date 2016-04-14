@@ -17,4 +17,6 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'api/v1'], function() {
 	Route::resource('items', "ItemsController");
+	Route::post('authenticate', 'AuthenticateController@authenticate');
+	Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
 });
